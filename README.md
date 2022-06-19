@@ -19,4 +19,5 @@ all users list:
 | `gather`         | gather information                  |
 | `post-exploit`   | post exploit like add user etc...   |
 | `priv-esca`      | privilege escalation                |
+| `example`        | script examples                     |
 
