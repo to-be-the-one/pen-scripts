@@ -15,9 +15,10 @@ all users list:
 
 | name             | usage                               |
 | ---------------- | ----------------------------------- |
+| `code-review`    | find RCE etc...                     |
+| `example`        | script examples                     |
 | `exploit`        | exploit                             |
 | `gather`         | gather information                  |
 | `post-exploit`   | post exploit like add user etc...   |
 | `priv-esca`      | privilege escalation                |
-| `example`        | script examples                     |
 
