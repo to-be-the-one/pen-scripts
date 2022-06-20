@@ -68,7 +68,7 @@ def brute() -> None:
             #print(res.text)
             if res.text.find("Invalid login") == -1:
                 # have no result : correct password
-                print(f"{trd_id}: found password: {password}")
+                print(f"\033[32m{trd_id}: found password: {password} \033[0m")
                 quit_flag = True
             else:
                 print(f"{trd_id}: {password} not correct")
