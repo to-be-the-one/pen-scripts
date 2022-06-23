@@ -12,8 +12,10 @@ ref:
 
 @lockcy
 https://raw.githubusercontent.com/lockcy/penetration-kb/master/script/linux32udf.py
+!
 
-===========================================================================================================
+:<<!
+mysql udf priv esca script *bash* version
 
 Exploit Title: MySQL User-Defined (Linux) x32 / x86_64 sys_exec function local privilege escalation exploit
 Date: 24/01/2019
