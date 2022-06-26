@@ -13,8 +13,10 @@ buffer overflow.
 example to show how to create payload and how to exploit with pwntools.
 
 ref:
+
+[hackthebox Safe](https://app.hackthebox.com/machines/Safe)
 [Safe - WriteUp](https://www.tagnull.de/post/safe/)
-[ippsec safe writeup video](https://www.youtube.com/watch?v=CO_g3wtC7rk)
+[ippsec Safe writeup video](https://www.youtube.com/watch?v=CO_g3wtC7rk)
 '''
 
 # global var defination {{{1
