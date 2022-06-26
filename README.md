@@ -16,6 +16,7 @@ all users list:
 | name             | usage                               |
 | ---------------- | ----------------------------------- |
 | `code-review`    | find RCE etc...                     |
+| `encrypt`        | encrypt, brute                      |
 | `example`        | script examples                     |
 | `exploit`        | exploit                             |
 | `gather`         | gather information                  |
