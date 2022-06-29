@@ -1,8 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: UTF-8 -*-
 
-from pwn import *
-
 '''
 auth: @cyhfvg https://github.com/cyhfvg
 date: 2022/06/26
@@ -18,6 +16,9 @@ ref:
 [Safe - WriteUp](https://www.tagnull.de/post/safe/)
 [ippsec Safe writeup video](https://www.youtube.com/watch?v=CO_g3wtC7rk)
 '''
+
+
+from pwn import *
 
 # global var defination {{{1
 MODE_L="local"

@@ -1,4 +1,7 @@
 <#
+auth: @cyhfvg https://github.com/cyhfvg
+date: 2022/06/26
+
 execute command with user/password
 
 when contain space chars, set like this:

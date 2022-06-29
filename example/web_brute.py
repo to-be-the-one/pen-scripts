@@ -1,6 +1,13 @@
 #!/usr/bin/env python3
 # -*- coding: UTF-8 -*-
 
+'''
+auth: @cyhfvg https://github.com/cyhfvg
+date: 2022/06/26
+
+web brute script example.
+'''
+
 import os
 import re
 import time

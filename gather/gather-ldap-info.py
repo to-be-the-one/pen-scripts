@@ -1,5 +1,13 @@
 #!/usr/bin/python3
 
+'''
+auth: @cyhfvg https://github.com/cyhfvg
+date: 2022/06/26
+
+query ldap info example script.
+'''
+
+
 import ldap3
 
 # FIXME: change this

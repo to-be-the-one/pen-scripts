@@ -3,8 +3,8 @@
 :<<!
 mysql udf priv esca script *bash* version
 
-@cyhfvg
-https://github.com/cyhfvg
+auth: @cyhfvg https://github.com/cyhfvg
+date: 2022/06/26
 
 Test at : Ubuntu 20.04.3 LTS , mysql  Ver 15.1 Distrib 10.3.32-MariaDB
 

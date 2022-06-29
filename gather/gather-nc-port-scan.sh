@@ -1,10 +1,15 @@
 #!/bin/bash
 
-# require `nc`
-#
-# the simplest port scanner (script)
-#
-# check target ip's ports is up when in a box without tools like ssh, nmap etc...
+:<<!
+auth: @cyhfvg https://github.com/cyhfvg
+date: 2022/06/26
+
+require `nc`
+
+the simplest port scanner (script)
+
+check target ip's ports is up when in a box without tools like ssh, nmap etc...
+!
 
 
 # usage
