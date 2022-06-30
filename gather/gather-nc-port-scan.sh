@@ -4,7 +4,7 @@
 auth: @cyhfvg https://github.com/cyhfvg
 date: 2022/06/26
 
-require `nc`
+require *nc*
 
 the simplest port scanner (script)
 
