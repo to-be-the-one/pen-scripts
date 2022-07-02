@@ -10,8 +10,15 @@ usage:
 script.sh ./**/*.py
 !
 
+if [ $# -lt 1 ]; then
+    echo "Usage: $0 ./**/*.py"
+    exit 1
+fi
+
 files=$1
 
-# find RCE for python
+# find RCE for python {{{1
 grep --color=auto -nRPH "subprocess|\.run|exec(utable)?" "$files"
-
+# eval
+grep --color -niRP "eval(?=\([^)]+\))" "$files"
+#}}}
