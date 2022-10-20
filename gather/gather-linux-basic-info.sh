@@ -22,6 +22,7 @@ ext=".txt"
 if [ 0 == $(id | cut -d"=" -f2 | cut -d"(" -f1) ]; then
     is_super=1
     priv="root"
+    echo "current user is root user!!!"
 fi
 
 if [ ! -d ${out_dir}/${priv} ] ; then
@@ -33,6 +34,7 @@ fi
     whoami ; echo ""; \
     w ; echo "" ; \
     who am i ; echo "";) &> "${out_dir}/${priv}/cur_user_info${ext}"
+echo "DONE! current user info.";
 # }}}
 
 # hostname , linux version, kernel version, arch {{{1
@@ -41,21 +43,25 @@ fi
     cat /etc/*-release ; echo "" ; \
     uname -a ; echo "" ; \
     arch; echo "";) &> "${out_dir}/${priv}/os_version${ext}"
+echo "DONE! os version info.";
 # }}}
 
 # users {{{1
 (cat /etc/passwd ; echo "" ; \
     ls -alh /home ; echo "") &> "${out_dir}/${priv}/users${ext}"
+echo "DONE! user list.";
 # }}}
 
 # hashes {{{1
 if [ $is_super ]; then
     (cat /etc/shadow ; echo "" ; ) &> "${out_dir}/${priv}/shadow${ext}"
+    echo "DONE! hash list.";
 fi
 # }}}
 
 # process {{{1
 (ps -ef ; echo "") &> "${out_dir}/${priv}/process${ext}"
+echo "DONE! process list.";
 # }}}
 
 # network {{{1
@@ -65,22 +71,26 @@ fi
     routel ; echo "" ; \
     netstat -pantuo ; echo "" ; \
     ss -anp ; echo "" ;) &> "${out_dir}/${priv}/network${ext}"
+echo "DONE! network info.";
 # }}}
 
 # firewall {{{1
 if [ $is_super ]; then
     (iptables -L ; echo "" ; ) &> "${out_dir}/${priv}/firewall${ext}"
+    echo "DONE! firewall info.";
 fi
 # }}}
 
 # schtask {{{1
 (ls -alh /etc/cron* ; echo "" ; \
     cat /etc/crontab ; echo "" ;) &> "${out_dir}/${priv}/schtasks${ext}"
+echo "DONE! cron task list.";
 # }}}
 
 # writable directories {{{1
 if [ ! $is_super ]; then
     (find / -writable -type d 2>/dev/null ; echo "" ) &> "${out_dir}/${priv}/writable_dir${ext}"
+    echo "DONE! writable directory list.";
 fi
 # }}}
 
@@ -88,6 +98,7 @@ fi
 (mount ; echo "" ; \
     df -h ; echo "" ; \
     lsblk ; echo "" ;) &> "${out_dir}/${priv}/disk${ext}"
+echo "DONE! disk list.";
 # }}}
 
 # special bin file {{{1
@@ -95,5 +106,6 @@ if [ ! $is_super ]; then
     (find / -type f -perm -u=s 2>/dev/null ; echo "" ; \
         find / -type f -perm /2000 2>/dev/null ; echo "" ; \
         find / -type f -perm /6000 2>/dev/null ; echo "" ;) &> "${out_dir}/${priv}/special_bin${ext}"
+    echo "DONE! suid/guid bin list.";
 fi
 # }}}
