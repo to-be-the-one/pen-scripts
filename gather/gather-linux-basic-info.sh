@@ -75,7 +75,7 @@ echo "DONE! network info.";
 # }}}
 
 # firewall {{{1
-if [ $is_super ]; then
+if [ 1 -eq $is_super ]; then
     (iptables -L ; echo "" ; ) &> "${out_dir}/${priv}/firewall${ext}"
     echo "DONE! firewall info.";
 fi
@@ -88,7 +88,7 @@ echo "DONE! cron task list.";
 # }}}
 
 # writable directories {{{1
-if [ ! $is_super ]; then
+if [ 1 -ne $is_super ]; then
     (find / -writable -type d 2>/dev/null ; echo "" ) &> "${out_dir}/${priv}/writable_dir${ext}"
     echo "DONE! writable directory list.";
 fi
@@ -102,7 +102,7 @@ echo "DONE! disk list.";
 # }}}
 
 # special bin file {{{1
-if [ ! $is_super ]; then
+if [ 1 -ne $is_super ]; then
     (find / -type f -perm -u=s 2>/dev/null ; echo "" ; \
         find / -type f -perm /2000 2>/dev/null ; echo "" ; \
         find / -type f -perm /6000 2>/dev/null ; echo "" ;) &> "${out_dir}/${priv}/special_bin${ext}"
