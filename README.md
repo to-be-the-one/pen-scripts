@@ -13,13 +13,13 @@ all users list:
 
 ## modules
 
-| name             | usage                               |
-| ---------------- | ----------------------------------- |
-| `code-review`    | find RCE etc...                     |
-| `encrypt`        | encrypt, brute                      |
-| `example`        | script examples                     |
-| `exploit`        | exploit                             |
-| `gather`         | gather information                  |
-| `post-exploit`   | post exploit like add user etc...   |
-| `priv-esca`      | privilege escalation                |
-
+| name              | usage                               |
+| ----------------  | ----------------------------------- |
+| `code-review`     | find RCE etc...                     |
+| `encrypt`         | encrypt, brute                      |
+| `example`         | script examples                     |
+| `exploit`         | exploit                             |
+| `gather`          | gather information                  |
+| `post-exploit`    | post exploit like add user etc...   |
+| `priv-esca`       | privilege escalation                |
+| `password-attack` | password guessing, attack           |
