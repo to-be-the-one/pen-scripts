@@ -2,6 +2,8 @@
 
     Copy from oscp client lab!
 
+    guess password in victivm host; guess domain users' password.
+
     example:
     .\spray-passwords.ps1 -Pass 'pasword' -Admin
 
