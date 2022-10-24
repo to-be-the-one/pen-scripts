@@ -23,3 +23,4 @@ all users list:
 | `post-exploit`    | post exploit like add user etc...   |
 | `priv-esca`       | privilege escalation                |
 | `password-attack` | password guessing, attack           |
+| `web-shells`      | web shells: basic, reverse tec...   |
