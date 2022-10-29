@@ -1,5 +1,12 @@
 #!/bin/env bash
 
+:<<!
+auth: @cyhfvg https://github.com/cyhfvg
+date: 2022/10/29
+
+Bash-invoker example script for RCE(Remote command execute) exploit.
+!
+
 echo -e "input command.\nExample:\n>whoami\n"
 echo -n ">"
 
