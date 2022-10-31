@@ -53,7 +53,7 @@ echo "DONE! user list.";
 # }}}
 
 # hashes {{{1
-if [ $is_super ]; then
+if [ 1 -eq $is_super ]; then
     (cat /etc/shadow ; echo "" ; ) &> "${out_dir}/${priv}/shadow${ext}"
     echo "DONE! hash list.";
 fi
