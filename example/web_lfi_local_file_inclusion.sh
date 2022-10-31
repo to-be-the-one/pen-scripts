@@ -22,7 +22,7 @@ do
 
     # FIXME: change print range : 1,$line
     print_buff=$(echo "${content}" | sed -ne "1,$(expr $line / 2)p")
-    printf "\033[33m${print_buff}\033[0m\n";
+    printf "\033[33m%s\033[0m\n" "${print_buff}";
 
     echo -n ">"
 done
