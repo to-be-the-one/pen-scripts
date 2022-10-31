@@ -156,7 +156,7 @@ if [ "${MODE}" = "${MODE_DUMP}" ] ;then
         exit 1
     fi
 
-    printf "${GREEN}%s${NONE}: plgin_dir :${YELLOW} ${plugin_dir}${NONE} \n" "OK"
+    printf "${GREEN}%s${NONE}: plugin_dir :${YELLOW} ${plugin_dir}${NONE} \n" "OK"
     #}}}
 
     # dump udf so file as a *random* name {{{1
