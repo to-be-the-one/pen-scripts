@@ -13,7 +13,7 @@ if [ $# -lt 1 ]
 then
     echo -e "\nUsage: $0 <rpcclient_param>\n"
     echo -e "Example: $0 -N -U thinc.local/uName:pword 10.11.1.8\n"
-    printf "\033[33m-N -U thinc.local/uName:pword 10.11.1.8\033[0m is rpcclient's param.\n\n";
+    printf "\033[33m-N -U thinc.local/uName%pword 10.11.1.8\033[0m is rpcclient's param.\n\n";
     exit 0
 fi
 
@@ -33,7 +33,7 @@ rpcclient_enum_cmd=("enumdomains" "enumdrivers" "enumports" "enumprocdatatypes" 
 for cmd in ${rpcclient_enum_cmd[*]}
 do
     rpc_client="rpcclient ${param} -c '${cmd}'"
-    printf "\n\033[33m${rpc_client}\033[0m\n"
+    printf "\n\033[33m%s\033[0m\n" "${rpc_client}"
 
     res=$(eval ${rpc_client})
     if [ -n "${res}" ]
