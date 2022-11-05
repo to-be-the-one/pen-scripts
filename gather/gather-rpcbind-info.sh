@@ -12,8 +12,8 @@ invoke rpcclient's enumXXXX command, save output into *.rpcclient file.
 if [ $# -lt 1 ]
 then
     echo -e "\nUsage: $0 <rpcclient_param>\n"
-    echo -e "Example: $0 -N -U thinc.local/uName:pword 10.11.1.8\n"
-    printf "\033[33m-N -U thinc.local/uName%pword 10.11.1.8\033[0m is rpcclient's param.\n\n";
+    echo -e "Example: $0 -N -U thinc.local/uName:pword 192.168.1.3\n"
+    printf "\033[33m%s\033[0m is rpcclient's param.\n\n" "-N -U thinc.local/uName%pword 192.168.1.3"
     exit 0
 fi
 
