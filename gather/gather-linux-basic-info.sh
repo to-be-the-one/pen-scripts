@@ -19,7 +19,7 @@ is_super=0
 ext=".txt"
 
 # root user
-if [ 0 == $(id | cut -d"=" -f2 | cut -d"(" -f1) ]; then
+if [ 0 == "$(id -u)" ]; then
     is_super=1
     priv="root"
     echo "current user is root user!!!"
