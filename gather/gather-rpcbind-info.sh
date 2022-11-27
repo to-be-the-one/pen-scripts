@@ -9,8 +9,6 @@ require: rpcclient
 invoke rpcclient's enumXXXX command, save output into *.rpcclient file.
 !
 
-set -euo pipefail
-
 if [ $# -lt 1 ]
 then
     echo -e "\nUsage: $0 <rpcclient_param>\n"

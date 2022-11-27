@@ -11,9 +11,6 @@ the simplest port scanner (script)
 check target ip's ports is up when in a box without tools like ssh, nmap, nc etc...
 !
 
-set -euo pipefail
-cd ${0%/*}
-
 # usage
 if [ $# -lt 1 ]; then
     echo -e "usage:\nbash $0 192.168.1.1"

@@ -19,9 +19,6 @@ ref:
 [Safe - WriteUp](https://www.tagnull.de/post/safe/)
 !
 
-set -euo pipefail
-cd ${0%/*}
-
 # change this {{{1
 PASS=bullshit
 DB_FILE=MyPasswords.kdbx

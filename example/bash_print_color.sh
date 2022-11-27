@@ -7,9 +7,6 @@ date: 2022/06/26
 color selector.
 !
 
-set -euo pipefail
-cd ${0%/*}
-
 # \033[A;B;Cm
 # A: 显示方式: 0(默认) 1(高亮) 4(下划线) 7(反显)
 # B: 前景色(字体颜色)

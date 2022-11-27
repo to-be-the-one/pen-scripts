@@ -10,9 +10,6 @@
 # Usage      = chmod +x CronJobChecker.sh && ./CronJobChecker.sh                  #
 #---------------------------------------------------------------------------------#
 
-set -euo pipefail
-cd ${0%/*}
-
 IFS=$'\n'
 
 # Check list of running processes

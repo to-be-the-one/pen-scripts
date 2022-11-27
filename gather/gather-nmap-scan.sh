@@ -7,9 +7,6 @@ date: 2022/06/26
 nmap scan script.
 !
 
-set -euo pipefail
-cd ${0%/*}
-
 if [ $# -ne 1 ]; then
     echo -e "Usage:\t$0 192.168.0.1"
     exit 1

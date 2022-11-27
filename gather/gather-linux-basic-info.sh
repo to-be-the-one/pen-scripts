@@ -8,9 +8,6 @@ Gather useful linux info for priv-esca,
 output information into a directory.
 !
 
-set -euo pipefail
-cd ${0%/*}
-
 if [ 0 == $# ]; then
     echo "Usage:    bash $0 /dir/to/output";
     exit 0
