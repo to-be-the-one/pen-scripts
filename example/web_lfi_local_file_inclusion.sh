@@ -1,4 +1,4 @@
-#!/bin/env bash
+#!/usr/bin/env -S bash
 
 :<<!
 auth: @cyhfvg https://github.com/cyhfvg
@@ -6,6 +6,9 @@ date: 2022/10/29
 
 Bash-invoker example script for LFI(Local File Inclusion) exploit.
 !
+
+set -euo pipefail
+cd ${0%/*}
 
 echo -e "input remote file.\nExample:\n>/etc/passwd\n"
 echo -n ">"

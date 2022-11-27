@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env -S bash
 
 :<<!
 auth: @cyhfvg https://github.com/cyhfvg
@@ -7,6 +7,9 @@ date: 2022/10/21
 Gather useful linux info for priv-esca,
 output information into a directory.
 !
+
+set -euo pipefail
+cd ${0%/*}
 
 if [ 0 == $# ]; then
     echo "Usage:    bash $0 /dir/to/output";

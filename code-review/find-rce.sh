@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env -S bash
 
 :<<!
 auth: @cyhfvg https://github.com/cyhfvg
@@ -9,6 +9,9 @@ find RCE for everything.
 usage:
 script.sh ./**/*.py
 !
+
+set -euo pipefail
+cd ${0%/*}
 
 if [ $# -lt 1 ]; then
     echo "Usage: $0 ./**/*.py"

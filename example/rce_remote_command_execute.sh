@@ -1,4 +1,4 @@
-#!/usr/bin/env -S bash -x
+#!/usr/bin/env -S bash
 
 :<<!
 auth: @cyhfvg https://github.com/cyhfvg
@@ -6,6 +6,9 @@ date: 2022/10/29
 
 Bash-invoker example script for RCE(Remote command execute) exploit.
 !
+
+set -euo pipefail
+cd ${0%/*}
 
 prompt_opt=">"
 cur_path=""

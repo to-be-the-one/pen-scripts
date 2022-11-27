@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env -S bash
 
 :<<!
 auth: @cyhfvg https://github.com/cyhfvg
@@ -19,6 +19,8 @@ ref:
 [Safe - WriteUp](https://www.tagnull.de/post/safe/)
 !
 
+set -euo pipefail
+cd ${0%/*}
 
 # change this {{{1
 PASS=bullshit

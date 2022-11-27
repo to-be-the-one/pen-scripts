@@ -1,4 +1,4 @@
-#!/bin/env bash
+#!/usr/bin/env -S bash
 
 :<<!
 auth: @cyhfvg https://github.com/cyhfvg
@@ -8,6 +8,8 @@ require: rpcclient
 
 invoke rpcclient's enumXXXX command, save output into *.rpcclient file.
 !
+
+set -euo pipefail
 
 if [ $# -lt 1 ]
 then

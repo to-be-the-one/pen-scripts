@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env -S bash
 #
 # copy from : https://github.com/dashagriiva/OSCP-Prep-1/blob/master/Scripts%201/BASH/CronJobChecker.sh
 #
@@ -9,6 +9,9 @@
 # Reference  = https://www.youtube.com/watch?v=K9DKULxSBK4                        #
 # Usage      = chmod +x CronJobChecker.sh && ./CronJobChecker.sh                  #
 #---------------------------------------------------------------------------------#
+
+set -euo pipefail
+cd ${0%/*}
 
 IFS=$'\n'
 
