@@ -10,6 +10,8 @@ install penetration test tools automatically.
 set -euo pipefail
 cd ${0%/*}
 
+# install tools by apt {{{1
+#
 # shells
 defer_1=("rlwrap" "zsh" "ncat")
 
@@ -36,24 +38,53 @@ defer_6_gui=("johnny")
 defer_7=("metasploit-framework" "recon-ng" "python3-impacket" "impacket-scripts" "bloodhound.py" \
     "crackmapexec" "evil-winrm")
 
-apt update && apt -u upgrade -y || exit 1
 
 function install_by_defer() {
     pkg_array=("$@")
-    for pkg in ${pkg_array[@]}
+    printf "\n%s \033[33m%s\033[0m\n\n" "install" $(IFS=','; echo "${pkg_array[*]}")
+    apt install "${pkg_array[@]}" -y || true
+}
+
+# install with apt
+# $1 == "cmdlet" / "gui" / "all" , default "all"
+function install_tools_by_apt() {
+    install_mode=""
+    [ $# -eq 0 ] && install_mode="all"
+    install_mode="$1"
+    [[ "${install_mode}" =~ ^(all|cmdlet|gui)$ ]] && true || (echo "mode error" ; exit 1)
+
+    for idx in {1..10};
     do
-        apt search "${pkg}" 2>/dev/null | grep --color=never -q "${pkg}" && apt install "${pkg}" -y || echo "${pkg} not exist"
+        if [[ "${install_mode}" =~ ^(all|cmdlet)$ ]]
+        then
+            # cmdlet tools
+            temp_defer="defer_${idx}"
+            [ -v "${temp_defer}" ] && eval install_by_defer '${'"${temp_defer}"'[@]}' || true
+        fi
+
+        if [[ "${install_mode}" =~ ^(all|gui)$ ]]
+        then
+            # gui tools
+            temp_defer_gui="${temp_defer}_gui"
+            [ -v "${temp_defer_gui}" ] && eval install_by_defer '${'"${temp_defer_gui}"'[@]}' || true
+        fi
     done
 }
 
-# main
-for idx in {1..10};
-do
-    # cmdlet tools
-    temp_defer="defer_${idx}"
-    [ -v "${temp_defer}" ] && eval install_by_defer '${'"${temp_defer}"'[@]}' || true
+# 1}}}
 
-    # gui tools
-    temp_defer_gui="${temp_defer}_gui"
-    [ -v "${temp_defer_gui}" ] && eval install_by_defer '${'"${temp_defer_gui}"'[@]}' || true
-done
+function update_system() {
+    apt update && apt -u upgrade -y || exit 1
+}
+
+# main {{{1
+function main() {
+    update_system
+
+    # cmdlet / gui / all
+    install_tools_by_apt "cmdlet"
+}
+# }}}
+
+# invoke main
+main
