@@ -34,8 +34,14 @@ defer_5=("seclists" "dirb" "windows-binaries" "webshells" "wordlists")
 defer_6=("john" "hashcat" "crowbar" "hydra")
 defer_6_gui=("johnny")
 
+# powershell
+defer_7=("powersploit")
+
+# middle way
+defer_8=("responder")
+
 # framework
-defer_7=("metasploit-framework" "recon-ng" "python3-impacket" "impacket-scripts" "bloodhound.py" \
+defer_10=("metasploit-framework" "recon-ng" "python3-impacket" "impacket-scripts" "bloodhound.py" \
     "crackmapexec" "evil-winrm")
 
 
