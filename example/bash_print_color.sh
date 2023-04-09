@@ -8,9 +8,12 @@ color selector.
 !
 
 # \033[A;B;Cm
+# \e[A;B;Cm
 # A: 显示方式: 0(默认) 1(高亮) 4(下划线) 7(反显)
 # B: 前景色(字体颜色)
 # C: 背景色
+
+printf "\e[2m (TEST: 2m) \e[0m\n";
 
 printf "\033[2m (TEST: 2m) \033[0m\n";
 printf "\033[4m (TEST: 4m) \033[0m\n";
